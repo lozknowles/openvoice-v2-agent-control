@@ -15,13 +15,13 @@ subjective speaker similarity.
 
 ## Authoritative evidence
 
-- Agent Control Run: `run-908f817d-9235-40dd-9650-c0e4db75d4ff`
+- Agent Control Run: `run-123a09db-7a35-4c30-8a8a-c8dc2a2b4e61`
 - Run status: `SUCCEEDED` (all six steps succeeded)
-- Evidence directory: `/fast/qualification/openvoice-v2-20260826T183239Z`
+- Evidence directory: `/fast/qualification/openvoice-v2-20260826T185118Z`
 - OpenVoice upstream: `74a1d147b17a8c3092dd5430504bd83ef6c7eb23`
 - MeloTTS upstream: `209145371cff8fc3bd60d7be902ea69cbdb7965a`
-- Agent Control source base observed by the run:
-  `31d9c2378a23d37df8c8a29bd752c30752383c74`
+- Agent Control commit observed by the run:
+  `3eb263e19ec8b7d059fb1bef07ba69daa9af347e`
 
 Audio remains private outside Git. The evidence directory contains the
 synthetic fixture and outputs, so it must not be pushed or attached to issues.
@@ -54,20 +54,20 @@ satisfiable; the pinned upstream runtime code remains unchanged.
 
 | Sentence | CPU seconds / RTF / WER | GPU seconds / RTF / WER |
 | --- | --- | --- |
-| The quick brown fox... | 12.925 / 2.953 / 0.000 | 4.015 / 0.917 / 0.000 |
-| At half past seven... | 14.668 / 3.037 / 0.000 | 0.884 / 0.183 / 0.000 |
-| Clear speech should... | 17.379 / 3.099 / 0.0714 | 1.315 / 0.234 / 0.0714 |
-| Mean | 14.991 / 3.030 / 0.0238 | 2.071 / 0.445 / 0.0238 |
+| The quick brown fox... | 12.777 / 2.919 / 0.000 | 3.976 / 0.908 / 0.000 |
+| At half past seven... | 14.502 / 3.003 / 0.000 | 0.946 / 0.196 / 0.000 |
+| Clear speech should... | 17.055 / 3.041 / 0.0714 | 1.281 / 0.228 / 0.0714 |
+| Mean | 14.778 / 2.988 / 0.0238 | 2.068 / 0.444 / 0.0238 |
 
 The first GPU generation includes warm-up work. CPU and GPU WAV hashes differ,
 as expected. All six outputs decoded `@MyShell`; no output clipped. The internal
 reference-embedding cosine ranges were 0.8461-0.8693 on CPU and 0.8564-0.8796 on
 GPU. These values are not an independent speaker-verification result.
 
-GPU model loading took 8.984 seconds. The conservative guard observed a peak
-1,646 MiB of new VRAM and a peak total of 8,585 MiB; the finer process monitor
-observed a 1,550 MiB process peak and at least 7,756 MiB free. The guard did not
-abort and the live CUDA tensor probe returned 496.0.
+GPU model loading took 8.738 seconds. The resource guard sampled a peak 1,550
+MiB of new VRAM and a peak total of 8,489 MiB. The finer process monitor recorded
+a 1,646 MiB process peak, a peak total of 8,585 MiB and at least 7,682 MiB free.
+The guard did not abort and the live CUDA tensor probe returned 496.0.
 
 ## Safety and interface
 
