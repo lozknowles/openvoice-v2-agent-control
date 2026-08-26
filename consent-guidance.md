@@ -37,6 +37,12 @@ its JSON sidecar and the upstream watermark. Do not use generated speech for
 impersonation, authentication bypass, fraud, harassment, political deception or
 misleading evidence.
 
+For a cloud provider, an existing voice ID is not proof of consent. Confirm that
+the account holder is authorised to use that voice for the intended text and
+audience before selecting it. This repository does not create or upload voice
+clones to ElevenLabs. Adding such a workflow would require a separate consent,
+retention, and security review.
+
 The bundled qualification fixture is generated locally by the MIT-licensed
 MeloTTS British English base speaker. It tests the pipeline without asserting a
 human identity or human consent. It does not qualify cloning of any real person.

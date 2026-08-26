@@ -1,14 +1,45 @@
-# Governed MyShell OpenVoice V2 for Agent Control
+# Governed Speech Synthesis Qualification for Agent Control
 
-This repository installs and qualifies a pinned MyShell OpenVoice V2 source
-checkout on hpubuntu without changing the system Python, NVIDIA driver, system
-CUDA toolkit or protected workloads. The installer and Agent Control Job remain
-optional: they create no resident service, public route, Gradio share link or
-automatic schedule. A separately authorised password beta is documented below.
+This public repository provides a provider-neutral speech synthesis interface,
+reproducible qualification harness, and a pinned MyShell OpenVoice V2
+installation for hpubuntu. It compares OpenVoice V2, the already-installed
+Kokoro ONNX service, MeloTTS, and an opt-in ElevenLabs adapter without changing
+the system Python, NVIDIA driver, system CUDA toolkit, or protected workloads.
+The installer and Agent Control Job remain optional. A separately authorised
+password-protected OpenVoice beta is documented below.
 
 Voice cloning is allowed only for the operator's own voice or a voice for which
 explicit permission has been obtained. All outputs are marked synthetic and the
 upstream `@MyShell` watermark is preserved where audio length permits.
+
+## Current verdict
+
+**PARTIAL.** OpenVoice V2, Kokoro, and MeloTTS have each produced speech on the
+qualification host. OpenVoice is qualified for the complete CPU corpus and a
+bounded ten-case Pascal GPU corpus; its long GPU case deliberately failed the
+VRAM safety gate. ElevenLabs is implemented against the official streaming API
+but remains unqualified because no credential or live synthesis was available.
+Human listening is still required before making a subjective quality claim.
+
+The portable entry point is:
+
+```python
+from speech import synthesize
+
+result = synthesize(
+    text="The next train leaves Newark at half past seven.",
+    voice="default",
+    provider="auto",
+    speed=1.0,
+    style=None,
+    output_format="wav",
+    output_path="/tmp/example_synthetic.wav",
+)
+```
+
+`provider="auto"` is local-first and never selects a cloud provider. See
+[`docs/speech-synthesis/qualification.md`](docs/speech-synthesis/qualification.md)
+for the evidence matrix and [`CHANGELOG.md`](CHANGELOG.md) for release history.
 
 ## Pinned layout
 
@@ -23,17 +54,20 @@ upstream `@MyShell` watermark is preserved where audio length permits.
 
 See [`UPSTREAM.lock.json`](UPSTREAM.lock.json) for every code/model/runtime pin.
 The upstream code and models are fetched from the MyShell GitHub/Hugging Face
-projects and are never vendored into this private integration repository.
+projects and are never vendored into this public source repository.
 The upstream checkout remains pristine. A hashed packaging-only patch adjusts
 the NumPy patch version required by the isolated PyAV 10 build; see the lock and
 [`qualification.md`](qualification.md) for the exact boundary.
 
 ## Qualified result
 
-The 2026-08-26 hpubuntu run completed all Agent Control steps. CPU and GPU
-functional checks passed, while the overall verdict remains **PARTIAL** pending
-independent human listening and a separately authorised real-person reference.
-See [`qualification.md`](qualification.md) and [`MODEL_HASHES.json`](MODEL_HASHES.json).
+The 2026-08-26 hpubuntu run completed all OpenVoice Agent Control steps and the
+multi-provider harness produced speech with every available local adapter. The
+overall verdict remains **PARTIAL** pending independent human listening, a
+separately authorised real-person reference, and a credentialed ElevenLabs run.
+See [`qualification.md`](qualification.md),
+[`docs/speech-synthesis/qualification.md`](docs/speech-synthesis/qualification.md),
+and [`MODEL_HASHES.json`](MODEL_HASHES.json).
 
 ## Agent Control
 
@@ -114,12 +148,16 @@ when its bounded lifetime ends.
 
 ```bash
 /fast/venvs/openvoice-v2-py39/bin/python -m pytest -q
+/fast/venvs/openvoice-v2-py39/bin/python scripts/synthesize.py --list-providers
 /fast/venvs/openvoice-v2-py39/bin/python scripts/verify_repo_hygiene.py \
   --repo . --report /fast/qualification/openvoice-v2-hygiene.json
+python3 scripts/audit_public_history.py \
+  --repo . --report /fast/qualification/openvoice-v2-public-history.json
 ```
 
 Read [`architecture.md`](architecture.md), [`SECURITY.md`](SECURITY.md), and
-[`consent-guidance.md`](consent-guidance.md) before use.
+[`consent-guidance.md`](consent-guidance.md) before use. Provider-specific
+documents are under [`docs/speech-synthesis/`](docs/speech-synthesis/).
 
 ## Upstream
 

@@ -1,5 +1,32 @@
 # Architecture
 
+## Provider-neutral qualification layer
+
+```text
+caller / Agent Control / benchmark runner
+  -> speech.synthesize(request)
+     -> provider registry and capability check
+        -> openvoice worker -> MeloTTS + OpenVoice converter
+        -> local worker     -> existing Kokoro ONNX endpoint
+        -> melotts worker   -> pinned MeloTTS environment
+        -> elevenlabs       -> explicit cloud opt-in + official API
+  -> synthetic WAV + structured result metadata
+  -> resource samples + immutable report outside Git
+```
+
+The core request contains only portable fields: text, voice, provider, speed,
+style, output format, output path, language, and an optional authorised
+reference. Provider-specific controls are represented through declared
+capabilities and optional adapter settings, not application-specific branches.
+`auto` chooses only a successfully discovered local provider.
+
+Local engines execute in long-lived subprocess workers so incompatible Python
+environments can coexist. OpenVoice and MeloTTS workers recycle after three
+successful requests because qualification observed cumulative allocator RSS
+growth on the complete CPU corpus. Restart latency is included in benchmark
+timing. The ElevenLabs adapter is in-process but requires explicit cloud consent
+and reads its key only from an environment variable.
+
 ## Boundary
 
 OpenVoice qualification remains an optional, one-shot capability. Agent Control owns the Job,
@@ -78,3 +105,12 @@ British English is the qualified path. The V2 converter supports the upstream
 languages, but this integration prefetches and qualifies the pinned English
 MeloTTS base model only. Other languages require separately pinned base and BERT
 models plus their own evidence.
+
+The fixed multi-provider corpus covers conversational and long-form text,
+numbers, dates, UK place names, unusual names, abbreviations, technical terms,
+questions, excited delivery, and neutral informational speech. Reports capture
+latency, complete-file time to first audio, real-time factor, duration, size,
+CPU, RAM, process/host VRAM, failures, and capability flags. Local adapters do
+not yet stream, so their first-audio measurement is necessarily complete-file
+availability. See [`docs/speech-synthesis/architecture.md`](docs/speech-synthesis/architecture.md)
+for the detailed design and evidence boundary.

@@ -18,6 +18,14 @@
 - Never commit or push reference audio, generated audio, speaker embeddings,
   checkpoints, model caches, environment files, tokens, credentials or personal
   recordings.
+- Before any public visibility change, run both current-tree hygiene and the
+  full-history audit. A clean working tree alone is not sufficient because an
+  earlier Git object could still contain private material.
+- Treat ElevenLabs as an explicit cloud boundary. Read its key only from
+  `ELEVENLABS_API_KEY`, never pass it as a CLI argument, never expose it to a
+  browser, and never select the provider through `auto`. The adapter never
+  uploads a reference or creates a cloned voice; it accepts an existing
+  authorised voice ID only.
 - Preserve the upstream watermark. This integration always passes
   `@MyShell` to `ToneColorConverter.convert` and records whether decoding was
   observed.
@@ -43,6 +51,10 @@ Installation may read the pinned GitHub, PyTorch, conda-forge and Hugging Face
 artifacts recorded in `UPSTREAM.lock.json`. Inference uses local files. The UI
 does not require outbound network access after the pinned model cache is
 present.
+
+Cloud synthesis transmits text and the selected provider voice identifier to
+the provider. Do not send personal, confidential, or regulated text without a
+separate data-handling decision. Local-provider benchmarks make no cloud calls.
 
 ## Resource safety
 
