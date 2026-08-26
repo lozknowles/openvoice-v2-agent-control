@@ -1,0 +1,166 @@
+{
+  "schema": "openvoice-v2.model-hashes/v1",
+  "generated": "2026-08-26",
+  "models": {
+    "openvoice_v2": {
+      "repository": "myshell-ai/OpenVoiceV2",
+      "revision": "f36e7edfe1684461a8343844af60babc2efbb727",
+      "files": [
+        {
+          "path": "base_speakers/ses/en-au.pth",
+          "size": 1701,
+          "sha256": "5e9782233deef51fc5289d05ad4dd4ce12b196e282eccf6b6db6256bbd02daaa"
+        },
+        {
+          "path": "base_speakers/ses/en-br.pth",
+          "size": 1701,
+          "sha256": "2bf5a88025cfd10473b25d65d5c0e608338ce4533059c5f9a3383e69c812d389"
+        },
+        {
+          "path": "base_speakers/ses/en-default.pth",
+          "size": 1783,
+          "sha256": "e4139de3bc2ea162f45a5a5f9559b710686c9689749b5ab8945ee5e2a082d154"
+        },
+        {
+          "path": "base_speakers/ses/en-india.pth",
+          "size": 1701,
+          "sha256": "ad03d946757e95fe9e13239aa4b11071d98f22316f604f34b1a0b4bdf41cda48"
+        },
+        {
+          "path": "base_speakers/ses/en-newest.pth",
+          "size": 1692,
+          "sha256": "6a3798229b1114f0e9cc137b33211809def7dda5a8a9398d5a112c0b42699177"
+        },
+        {
+          "path": "base_speakers/ses/en-us.pth",
+          "size": 1701,
+          "sha256": "0d092d4af0815a4bfbc6105b65621ab68dc4c61b2f55044d8a66968a34947c32"
+        },
+        {
+          "path": "base_speakers/ses/es.pth",
+          "size": 1692,
+          "sha256": "b8cece8853fb75b9f5217a1f5cda9807bac92a3e4c4547fc651e404d05deff63"
+        },
+        {
+          "path": "base_speakers/ses/fr.pth",
+          "size": 1692,
+          "sha256": "8a01f6d30a73efa368c288a542a522a2bcdd4e2ec5589d8646b307cf8e2ad9ae"
+        },
+        {
+          "path": "base_speakers/ses/jp.pth",
+          "size": 1692,
+          "sha256": "7b645ff428de4a57a22122318968f1e6127ac81fda2e2aa66062deccd3864416"
+        },
+        {
+          "path": "base_speakers/ses/kr.pth",
+          "size": 1692,
+          "sha256": "f501479d6072741a396725bec79144653e9f4a5381b85901e29683aa169795df"
+        },
+        {
+          "path": "base_speakers/ses/zh.pth",
+          "size": 1692,
+          "sha256": "2b353de562700c13faacf096ecfc0adcafd26e6704a9feef572be1279714e031"
+        },
+        {
+          "path": "converter/checkpoint.pth",
+          "size": 131320490,
+          "sha256": "9652c27e92b6b2a91632590ac9962ef7ae2b712e5c5b7f4c34ec55ee2b37ab9e"
+        },
+        {
+          "path": "converter/config.json",
+          "size": 838,
+          "sha256": "9dfff60350b8c63f2c664efd92a61b2516efb22671466960f0e5dfebd881fa47"
+        }
+      ]
+    },
+    "melotts_english": {
+      "repository": "myshell-ai/MeloTTS-English",
+      "revision": "bb4fb7346d566d277ba8c8c7dbfdf6786139b8ef",
+      "files": [
+        {
+          "path": "checkpoint.pth",
+          "size": 207860748,
+          "sha256": "acd278040eaf9536908e2b965273df5a731c44d8f0da66cc5fed7972772ed23c"
+        },
+        {
+          "path": "config.json",
+          "size": 3488,
+          "sha256": "039116c927c70eaa4458d315ea83aaaa99e1fca1c621b50c8ca56b4a5700eb77"
+        }
+      ]
+    },
+    "faster_whisper_tiny_en": {
+      "repository": "Systran/faster-whisper-tiny.en",
+      "revision": "0d3d19a32d3338f10357c0889762bd8d64bbdeba",
+      "files": [
+        {
+          "path": "config.json",
+          "size": 2317,
+          "sha256": "14b1b421a90349bc551b881461426b561a874049cb9e4c4864f2ca384f6a7cc5"
+        },
+        {
+          "path": "model.bin",
+          "size": 75537502,
+          "sha256": "1a5afae06a4db91c975c9a9d78be5cc110ee4ea022ad57d55492e4550e936b2a"
+        },
+        {
+          "path": "tokenizer.json",
+          "size": 2128466,
+          "sha256": "929c5252409436dce1b38a75d1abbcb5e132d170d8e324e4e04ed915fa2d22df"
+        },
+        {
+          "path": "vocabulary.txt",
+          "size": 422309,
+          "sha256": "ff77588746d3a2595d32ab5b69ffd7b95ce2441ac57533cb66fc3eb575a115cf"
+        }
+      ]
+    },
+    "wavmark": {
+      "repository": "M4869/WavMark",
+      "revision": "0ad3c7b74f641bddb61f6b85cdf2de0d93a5bfef",
+      "files": [
+        {
+          "path": "step59000_snr39.99_pesq4.35_BERP_none0.30_mean1.81_std1.81.model.pkl",
+          "size": 10019039,
+          "sha256": "7a3d873d115c2c644685fb4cf109bdb299718296b88c871d3cf1c8e4cbc13144"
+        }
+      ]
+    },
+    "bert_base_uncased": {
+      "repository": "google-bert/bert-base-uncased",
+      "revision": "86b5e0934494bd15c9632b12f734a8a67f723594",
+      "files": [
+        {
+          "path": "config.json",
+          "size": 570,
+          "sha256": "7160e1553ad2ca51d8c1cb066be533db31826e12d173824c1bb0cb1a4f187d20"
+        },
+        {
+          "path": "model.safetensors",
+          "size": 440449768,
+          "sha256": "68d45e234eb4a928074dfd868cead0219ab85354cc53d20e772753c6bb9169d3"
+        },
+        {
+          "path": "pytorch_model.bin",
+          "size": 440473133,
+          "sha256": "097417381d6c7230bd9e3557456d726de6e83245ec8b24f529f60198a67b203a"
+        },
+        {
+          "path": "tokenizer.json",
+          "size": 466062,
+          "sha256": "ce64fce797c24f68df90b40a3f74f579b336a493db14bd583fd520ea0d8c9a98"
+        },
+        {
+          "path": "tokenizer_config.json",
+          "size": 48,
+          "sha256": "a025160ef0431f1a392f6f050c1310f4c5d9fb6f275932dbccba73c4d214bf10"
+        },
+        {
+          "path": "vocab.txt",
+          "size": 231508,
+          "sha256": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3"
+        }
+      ]
+    }
+  }
+}

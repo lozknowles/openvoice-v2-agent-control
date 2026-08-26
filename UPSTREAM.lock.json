@@ -1,0 +1,64 @@
+{
+  "schema": "openvoice-v2.integration-pins/v1",
+  "generated": "2026-08-26",
+  "code": {
+    "openvoice": {
+      "repository": "https://github.com/myshell-ai/OpenVoice.git",
+      "commit": "74a1d147b17a8c3092dd5430504bd83ef6c7eb23"
+    },
+    "melotts": {
+      "repository": "https://github.com/myshell-ai/MeloTTS.git",
+      "commit": "209145371cff8fc3bd60d7be902ea69cbdb7965a"
+    }
+  },
+  "packaging_compatibility": {
+    "patch": "patches/openvoice-numpy-1.22.4.patch",
+    "sha256": "88e71e2db000f65847b5e16477a1f5e5afcf8c926824ed97d7273a74e57f4ddc",
+    "scope": "Changes setup metadata only from numpy 1.22.0 to 1.22.4 so the exact conda PyAV 10 build is satisfiable; upstream runtime code remains unchanged."
+  },
+  "runtime": {
+    "python": "3.9.23",
+    "python_note": "Python 3.9 is upstream-required and reached end of life on 2025-10-31; keep this environment isolated.",
+    "miniforge": {
+      "release": "26.5.3-0",
+      "asset": "Miniforge3-Linux-x86_64.sh",
+      "sha256": "14db468222ad564658656f769506056209b6dc375f5e7dfd31eb5ebbf08fa529"
+    },
+    "pytorch": "2.5.1+cu121",
+    "torchaudio": "2.5.1+cu121",
+    "numpy": "1.22.4=py39hc58783e_0",
+    "pyav": "10.0.0=py39h90d6480_4",
+    "ffmpeg": "6.1.2=gpl_hdfc89ed_706",
+    "cuda_runtime": "12.1",
+    "target_compute_capability": "6.1"
+  },
+  "models": {
+    "openvoice_v2": {
+      "repository": "myshell-ai/OpenVoiceV2",
+      "revision": "f36e7edfe1684461a8343844af60babc2efbb727",
+      "files": []
+    },
+    "melotts_english": {
+      "repository": "myshell-ai/MeloTTS-English",
+      "revision": "bb4fb7346d566d277ba8c8c7dbfdf6786139b8ef",
+      "files": []
+    },
+    "bert_base_uncased": {
+      "repository": "google-bert/bert-base-uncased",
+      "revision": "86b5e0934494bd15c9632b12f734a8a67f723594",
+      "files": []
+    },
+    "faster_whisper_tiny_en": {
+      "repository": "Systran/faster-whisper-tiny.en",
+      "revision": "0d3d19a32d3338f10357c0889762bd8d64bbdeba",
+      "files": []
+    },
+    "wavmark": {
+      "repository": "M4869/WavMark",
+      "revision": "0ad3c7b74f641bddb61f6b85cdf2de0d93a5bfef",
+      "files": []
+    }
+  },
+  "watermark_message": "@MyShell",
+  "observed_file_hashes": "Populated after immutable downloads by scripts/install_openvoice_v2.sh and recorded in qualification evidence."
+}
