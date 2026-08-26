@@ -1,0 +1,63 @@
+{
+  "schema": "speech-synthesis.benchmark-corpus/v1",
+  "id": "en-GB-fixed-2026-08-26",
+  "language": "en-GB",
+  "description": "Fixed public text corpus for objective provider comparison. It contains no personal recording or private text.",
+  "cases": [
+    {
+      "id": "short-conversation",
+      "categories": ["short conversational sentence", "questions"],
+      "text": "Are you free for a quick walk after lunch?"
+    },
+    {
+      "id": "long-neutral-paragraph",
+      "categories": ["long paragraph", "neutral informational speech"],
+      "text": "The village archive opens at nine in the morning and closes at half past four. Visitors should bring a pencil, place bags in the lockers, and ask the duty archivist before photographing fragile documents. Digital copies are available for many catalogued items, but handwritten maps may require supervised handling in the reading room."
+    },
+    {
+      "id": "numbers-currency",
+      "categories": ["numbers"],
+      "text": "The meter read 18.75 kilowatt-hours, the balance was £1,234.56, and the reference number was 407021."
+    },
+    {
+      "id": "dates-times",
+      "categories": ["dates"],
+      "text": "The meeting moved from Tuesday, 26 August 2026, to Thursday, 3 September 2026, at 7:05 p.m."
+    },
+    {
+      "id": "uk-place-names",
+      "categories": ["UK place names"],
+      "text": "The train left Newark-on-Trent for Collingham, then continued towards Southwell, Leicester, Worcestershire, and Edinburgh."
+    },
+    {
+      "id": "unusual-names",
+      "categories": ["unusual names"],
+      "text": "Siobhan met Niamh, Chiwetel Ejiofor, and Mairéad in the foyer before the recital."
+    },
+    {
+      "id": "abbreviations",
+      "categories": ["abbreviations"],
+      "text": "Dr Patel sent the NHS report to the BBC, the RSPB, and the U.K. office before 5 p.m."
+    },
+    {
+      "id": "technical-terminology",
+      "categories": ["technical terminology"],
+      "text": "The CUDA kernel used a quantised ONNX model, while the HTTPS API returned JSON metadata and a 24 kilohertz PCM waveform."
+    },
+    {
+      "id": "direct-question",
+      "categories": ["questions"],
+      "text": "Why did the checksum change after the model was rebuilt, and which commit produced the accepted artefact?"
+    },
+    {
+      "id": "excited-speech",
+      "categories": ["emotional/excited speech"],
+      "text": "Brilliant! We found the missing map, and it matches the old photograph perfectly!"
+    },
+    {
+      "id": "neutral-information",
+      "categories": ["neutral informational speech"],
+      "text": "This recording is synthetic and is provided only for an authorised speech-synthesis comparison."
+    }
+  ]
+}

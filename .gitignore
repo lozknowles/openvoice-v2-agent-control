@@ -31,3 +31,7 @@ runtime-data/
 *.secret
 credentials*
 token*
+speech/samples/*
+!speech/samples/README.md
+!speech/samples/.gitignore
+speech/benchmarks/results/

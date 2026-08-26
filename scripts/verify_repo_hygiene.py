@@ -16,6 +16,8 @@ SECRET_PATTERNS = {
     "private-key": re.compile(r"-----BEGIN (?:RSA |OPENSSH |EC )?PRIVATE KEY-----"),
     "github-token": re.compile(r"\bgh[ps]_[A-Za-z0-9]{20,}\b"),
     "openai-key": re.compile(r"\bsk-(?:proj-)?[A-Za-z0-9_-]{20,}\b"),
+    "aws-access-key": re.compile(r"\bAKIA[A-Z0-9]{16}\b"),
+    "bcrypt-password-hash": re.compile(r"\$2[aby]\$\d{2}\$[./A-Za-z0-9]{53}"),
 }
 
 

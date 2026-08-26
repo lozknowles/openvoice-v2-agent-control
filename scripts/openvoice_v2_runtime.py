@@ -221,11 +221,15 @@ class OpenVoiceV2Runtime:
         filename_prefix,
         consent_confirmed,
         consent_basis,
+        speed=1.0,
     ):
         if consent_confirmed is not True:
             raise PermissionError("Explicit voice permission confirmation is required")
         if not str(consent_basis).strip():
             raise PermissionError("Consent basis must be recorded")
+        speed = float(speed)
+        if speed < 0.7 or speed > 1.3:
+            raise ValueError("Speed must be between 0.7 and 1.3")
         output_dir = Path(output_dir).resolve()
         output_dir.mkdir(parents=True, exist_ok=True, mode=0o700)
         work_root = Path(tempfile.mkdtemp(prefix="openvoice-v2-", dir=str(output_dir.parent)))
@@ -248,7 +252,7 @@ class OpenVoiceV2Runtime:
                     clean_text,
                     speaker_id,
                     str(source_path),
-                    speed=1.0,
+                    speed=speed,
                     quiet=True,
                 )
                 base_seconds = time.perf_counter() - base_started
@@ -286,6 +290,7 @@ class OpenVoiceV2Runtime:
                     "filename": filename,
                     "sha256": sha256_file(output_path),
                     "synthetic": True,
+                    "speed": speed,
                     "watermark_requested": WATERMARK_MESSAGE,
                     "watermark_decoded": decoded,
                     "base_tts_seconds": base_seconds,

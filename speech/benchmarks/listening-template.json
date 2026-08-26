@@ -1,0 +1,16 @@
+{
+  "schema": "speech-synthesis.human-listening-review/v1",
+  "instructions": "Complete only after listening. Do not infer quality from model identity or objective signal metrics.",
+  "reviewer": null,
+  "reviewed_at": null,
+  "headphones_or_speakers": null,
+  "samples": [],
+  "fields_per_sample": {
+    "intelligibility_notes": null,
+    "speaker_similarity_notes": null,
+    "speaker_similarity_applicable": null,
+    "noise_and_artefact_notes": null,
+    "pronunciation_notes": null,
+    "preference_notes": null
+  }
+}

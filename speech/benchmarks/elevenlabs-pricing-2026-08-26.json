@@ -1,0 +1,19 @@
+{
+  "schema": "speech-synthesis.elevenlabs-pricing-snapshot/v1",
+  "as_of": "2026-08-26",
+  "currency": "USD",
+  "billing_unit": "1000 characters",
+  "taxes_included": false,
+  "source": "https://elevenlabs.io/pricing/api",
+  "source_statement": "Text to Speech is billed per character: $0.10 per 1,000 characters for v2/v3 and $0.05 for Flash/Turbo.",
+  "model_rates_usd_per_1000_characters": {
+    "eleven_multilingual_v2": 0.1,
+    "eleven_v3": 0.1,
+    "eleven_v3_conversational": 0.1,
+    "eleven_flash_v2": 0.05,
+    "eleven_flash_v2_5": 0.05,
+    "eleven_turbo_v2": 0.05,
+    "eleven_turbo_v2_5": 0.05
+  },
+  "qualification_note": "Estimates are reproducible snapshots, not invoices. The live API account, tax, plan, model availability and provider pricing must be checked before production use."
+}
