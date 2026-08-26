@@ -31,7 +31,10 @@ UMask=0077
 NoNewPrivileges=true
 PrivateTmp=true
 PrivateDevices=true
-ProtectHome=true
+# ProtectHome also masks the user runtime directory needed by RuntimeDirectory,
+# so hide only credential-bearing home paths while keeping %t available.
+ProtectHome=false
+InaccessiblePaths=-/home/loz/.ssh -/home/loz/.config -/home/loz/.gnupg
 ProtectSystem=full
 ProtectControlGroups=true
 ProtectKernelTunables=true

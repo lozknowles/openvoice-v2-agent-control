@@ -180,3 +180,4 @@ def test_public_deployment_templates_require_auth_and_resource_caps():
     assert "CPUQuota=150%" in service
     assert "CUDA_VISIBLE_DEVICES=" in service
     assert "PrivateDevices=true" in service
+    assert "InaccessiblePaths=-/home/loz/.ssh" in service
