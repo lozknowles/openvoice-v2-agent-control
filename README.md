@@ -60,13 +60,17 @@ After installation, for an explicitly requested interactive session only:
   --host 127.0.0.1 --port 7861 --device cpu
 ```
 
-The interface accepts an authorised WAV/MP3, text, installed language/accent and
-output filename. It rejects public/LAN binds; only loopback or a literal
-Tailscale `100.64.0.0/10` address is accepted. There is deliberately no share
-option. British, American, Australian, Indian and default English use the pinned
-English MeloTTS model; other languages require separately pinned models/evidence.
-Do not leave this process running as a service. No interface is enabled by the
-installation or Agent Control registration.
+The interface accepts exactly one authorised reference from either a WAV/MP3
+drop/upload or a browser microphone recording, plus text, installed
+language/accent and output filename. Microphone capture requires a browser secure
+context: use loopback or tailnet-only HTTPS (for example, Tailscale Serve), not
+plain HTTP on a Tailscale IP. The interface rejects public/LAN binds; only
+loopback or a literal Tailscale `100.64.0.0/10` address is accepted. There is
+deliberately no Gradio share option. British, American, Australian, Indian and
+default English use the pinned English MeloTTS model; other languages require
+separately pinned models/evidence. Do not leave this process running as a
+service. No interface is enabled by the installation or Agent Control
+registration.
 
 ## Verification
 

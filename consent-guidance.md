@@ -13,8 +13,10 @@ is not consent. Employment, family relationship, celebrity status or online
 availability is not consent.
 
 Before generation, confirm that the reference contains one speaker, is clean,
-contains no sensitive conversation, and is no longer than needed. After use,
-remove references and outputs that are no longer required.
+contains no sensitive conversation, and is no longer than needed. Whether the
+reference is dropped, uploaded or recorded through the microphone, use exactly
+one source and record only in private surroundings. After use, clear the browser
+recording and remove references and outputs that are no longer required.
 
 Every output must be described as synthetic. Keep the `_synthetic.wav` filename,
 its JSON sidecar and the upstream watermark. Do not use generated speech for

@@ -7,6 +7,9 @@
   or stop protected workloads to make GPU inference fit.
 - Never bind the interface to `0.0.0.0`, `::`, a public address, or a LAN address
   outside Tailscale. Never use Gradio sharing or a public tunnel.
+- Grant microphone permission only on the operator's loopback origin or a
+  tailnet-only HTTPS origin. Record in private surroundings and clear the
+  microphone reference when it is no longer needed.
 - Never commit or push reference audio, generated audio, speaker embeddings,
   checkpoints, model caches, environment files, tokens, credentials or personal
   recordings.
@@ -18,8 +21,9 @@
 
 ## Data handling
 
-Uploaded WAV/MP3 files are copied into a private temporary working directory,
-normalised for inference, hashed for evidence, and removed after the request.
+Uploaded WAV/MP3 or browser-recorded WAV references are copied into a private
+temporary working directory, normalised for inference, hashed for evidence, and
+removed after the request.
 Extracted embeddings remain in process memory and are not deliberately
 persisted. Qualification audio lives only beneath `/fast/qualification` and is
 excluded from Git; operator test output lives beneath `/fast/openvoice-v2-data`.

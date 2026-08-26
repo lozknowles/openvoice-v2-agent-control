@@ -56,9 +56,11 @@ Agent Control manual Job
 
 `scripts/local_interface.py` defaults to `127.0.0.1`. Bind validation allows
 loopback or the Tailscale CGNAT range (`100.64.0.0/10`) only. The program has no
-share option. A consent affirmation is mandatory for every generation, output
-names are sanitised, and generated files receive `_synthetic.wav` plus a JSON
-sidecar.
+share option. Separate drop/upload and microphone components feed a fail-closed
+selector that requires exactly one reference. Browser microphone capture must
+use a secure origin such as loopback or tailnet-only HTTPS. A consent affirmation
+is mandatory for every generation, output names are sanitised, and generated
+files receive `_synthetic.wav` plus a JSON sidecar.
 
 ## Qualification scope
 

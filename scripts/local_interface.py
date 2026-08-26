@@ -4,31 +4,62 @@
 import argparse
 import json
 
-from openvoice_v2_runtime import (
-    SUPPORTED_LANGUAGES,
-    synthesise_one,
-    validate_bind_host,
-)
+if __package__:
+    from .openvoice_v2_runtime import (
+        SUPPORTED_LANGUAGES,
+        synthesise_one,
+        validate_bind_host,
+    )
+else:
+    from openvoice_v2_runtime import (
+        SUPPORTED_LANGUAGES,
+        synthesise_one,
+        validate_bind_host,
+    )
 
 
 CONSENT_NOTICE = """
 ### Consent required
 
-Upload only your own voice or a voice for which you have explicit permission.
-Generated audio is synthetic, keeps the upstream `@MyShell` watermark where
-audio length permits, and is written with `_synthetic.wav` plus metadata. Do not
-use this tool for impersonation, fraud, authentication bypass or deception.
+Drop, upload or record only your own voice or a voice for which you have explicit
+permission. Generated audio is synthetic, keeps the upstream `@MyShell`
+watermark where audio length permits, and is written with `_synthetic.wav` plus
+metadata. Do not use this tool for impersonation, fraud, authentication bypass
+or deception.
 """
+
+
+def select_reference(upload_reference, microphone_reference):
+    references = [
+        value for value in (upload_reference, microphone_reference) if value
+    ]
+    if not references:
+        raise ValueError("An authorised upload or microphone recording is required")
+    if len(references) > 1:
+        raise ValueError(
+            "Use exactly one reference: clear either the upload or microphone recording"
+        )
+    return references[0]
 
 
 def build_app(default_device):
     import gradio as gr
 
-    def generate(reference, text, language, output_filename, device, consent):
+    def generate(
+        upload_reference,
+        microphone_reference,
+        text,
+        language,
+        output_filename,
+        device,
+        consent,
+    ):
         if not consent:
             raise gr.Error("Consent confirmation is required")
-        if not reference:
-            raise gr.Error("An authorised WAV or MP3 reference is required")
+        try:
+            reference = select_reference(upload_reference, microphone_reference)
+        except ValueError as exc:
+            raise gr.Error(str(exc)) from exc
         output, metrics = synthesise_one(
             reference_path=reference,
             text=text,
@@ -43,11 +74,24 @@ def build_app(default_device):
         gr.Markdown("# Governed OpenVoice V2 local test")
         gr.Markdown(CONSENT_NOTICE)
         with gr.Row():
-            reference = gr.Audio(
-                label="Authorised reference WAV/MP3",
-                type="filepath",
-                source="upload",
-            )
+            with gr.Column():
+                gr.Markdown("Choose exactly one authorised reference source.")
+                with gr.Tabs():
+                    with gr.Tab("Drop or upload"):
+                        upload_reference = gr.Audio(
+                            label="Authorised reference — drop/upload WAV or MP3",
+                            type="filepath",
+                            source="upload",
+                            show_share_button=False,
+                        )
+                    with gr.Tab("Record microphone"):
+                        microphone_reference = gr.Audio(
+                            label="Authorised reference — record microphone",
+                            type="filepath",
+                            source="microphone",
+                            format="wav",
+                            show_share_button=False,
+                        )
             with gr.Column():
                 text = gr.Textbox(label="Text", lines=5, max_lines=10)
                 language = gr.Dropdown(
@@ -73,7 +117,15 @@ def build_app(default_device):
         metrics = gr.Code(label="Generation evidence", language="json")
         submit.click(
             fn=generate,
-            inputs=[reference, text, language, output_filename, device, consent],
+            inputs=[
+                upload_reference,
+                microphone_reference,
+                text,
+                language,
+                output_filename,
+                device,
+                consent,
+            ],
             outputs=[output_audio, metrics],
         )
     app.queue(concurrency_count=1, max_size=4)
