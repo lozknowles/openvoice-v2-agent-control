@@ -1,0 +1,48 @@
+[Unit]
+Description=OpenVoice V2 password-protected public beta backend
+Documentation=https://github.com/lozknowles/openvoice-v2-agent-control
+StartLimitIntervalSec=300
+StartLimitBurst=3
+
+[Service]
+Type=simple
+WorkingDirectory=/fast/repos/openvoice-v2-agent-control
+RuntimeDirectory=openvoice-v2-public
+RuntimeDirectoryMode=0700
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=GRADIO_ANALYTICS_ENABLED=False
+Environment=CUDA_VISIBLE_DEVICES=
+Environment=OMP_NUM_THREADS=2
+Environment=MKL_NUM_THREADS=2
+ExecStart=/fast/venvs/openvoice-v2-py39/bin/python /fast/repos/openvoice-v2-agent-control/scripts/public_interface.py --host 100.125.120.114 --port 17862 --root-path /voice-clone --data-root %t/openvoice-v2-public
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=30
+Nice=15
+IOSchedulingClass=idle
+CPUQuota=150%
+MemoryHigh=8G
+MemoryMax=10G
+OOMScoreAdjust=500
+TasksMax=256
+LimitNOFILE=4096
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectHome=true
+ProtectSystem=full
+ProtectControlGroups=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectClock=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+LockPersonality=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+ReadOnlyPaths=/fast/repos/openvoice-v2-agent-control /fast/venvs/openvoice-v2-py39 /fast/models/openvoice-v2
+
+[Install]
+WantedBy=default.target

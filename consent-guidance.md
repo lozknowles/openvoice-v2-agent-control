@@ -1,5 +1,19 @@
 # Consent and synthetic-media guidance
 
+## Password-protected website beta
+
+The shared password controls access; it is not evidence of permission from a
+speaker. Every user must upload or record only their own voice, or a voice whose
+speaker has explicitly agreed to this cloning use. Users must not upload voices
+captured from calls, broadcasts, social media, meetings or other recordings
+merely because those recordings are accessible to them.
+
+Keep every downloaded filename and description marked as synthetic. Do not use
+generated speech as identity evidence, for authentication, or in a context that
+could reasonably make a listener believe the speaker actually said it. The
+website deletes its server-side reference promptly and its output within one
+hour, but users remain responsible for copies they download or redistribute.
+
 Use this capability only when one of the following is true:
 
 1. You are cloning your own voice and understand the intended use.

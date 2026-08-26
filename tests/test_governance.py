@@ -4,6 +4,13 @@ import pytest
 
 from scripts.local_interface import select_reference
 from scripts.local_loopback_proxy import validate_proxy_endpoints
+from scripts.public_interface import (
+    FixedWindowLimiter,
+    PUBLIC_MAX_TEXT_CHARS,
+    cleanup_expired,
+    remove_uploaded_reference,
+    validate_public_text,
+)
 from scripts.openvoice_v2_runtime import (
     OpenVoiceV2Runtime,
     synthetic_output_name,
@@ -97,3 +104,79 @@ def test_runtime_does_not_disable_upstream_watermarking():
         encoding="utf-8"
     )
     assert "enable_watermark=False" not in source
+
+
+def test_public_text_limit_is_bounded():
+    assert validate_public_text("A short test sentence.") == "A short test sentence."
+    with pytest.raises(ValueError):
+        validate_public_text("x" * (PUBLIC_MAX_TEXT_CHARS + 1))
+
+
+def test_public_limiter_enforces_client_and_global_windows():
+    limiter = FixedWindowLimiter(global_limit=3, client_limit=2, window_seconds=60)
+    assert limiter.consume("first", now=1)[0]
+    assert limiter.consume("first", now=2)[0]
+    assert not limiter.consume("first", now=3)[0]
+    assert limiter.consume("second", now=3)[0]
+    assert not limiter.consume("third", now=4)[0]
+    assert limiter.consume("first", now=70)[0]
+
+
+def test_public_retention_and_upload_removal_are_scoped(tmp_path):
+    data_root = tmp_path / "runtime"
+    upload_root = data_root / "gradio"
+    outputs = data_root / "outputs"
+    upload_dir = upload_root / "request"
+    upload_dir.mkdir(parents=True)
+    outputs.mkdir(parents=True)
+    reference = upload_dir / "reference.wav"
+    reference.write_bytes(b"RIFF")
+    outside = tmp_path / "outside.wav"
+    outside.write_bytes(b"keep")
+    remove_uploaded_reference(reference, upload_root)
+    remove_uploaded_reference(outside, upload_root)
+    assert not reference.exists()
+    assert outside.exists()
+
+    expired = outputs / "expired"
+    fresh = outputs / "fresh"
+    expired.mkdir()
+    fresh.mkdir()
+    import os
+
+    os.utime(expired, (1, 1))
+    os.utime(fresh, (100, 100))
+    assert cleanup_expired(data_root, retention_seconds=50, now=120) == 1
+    assert not expired.exists()
+    assert fresh.exists()
+
+
+def test_public_interface_is_cpu_only_bounded_and_unshared():
+    source = (Path(__file__).parents[1] / "scripts/public_interface.py").read_text(
+        encoding="utf-8"
+    )
+    assert 'device="cpu"' in source
+    assert 'choices=["cpu", "cuda"]' not in source
+    assert "share=False" in source
+    assert "concurrency_count=1" in source
+    assert "max_size=2" in source
+    assert "root_path=PUBLIC_ROOT_PATH" in source
+
+
+def test_public_deployment_templates_require_auth_and_resource_caps():
+    root = Path(__file__).parents[1]
+    apache = (root / "deploy/apache-lozknowles-voice-clone.conf").read_text(
+        encoding="utf-8"
+    )
+    service = (root / "deploy/openvoice-v2-public.service").read_text(
+        encoding="utf-8"
+    )
+    assert "AuthType Basic" in apache
+    assert "Require valid-user" in apache
+    assert "LimitRequestBody 16777216" in apache
+    assert "voice_clone_no_log" in apache
+    assert 'microphone=(self)' in apache
+    assert "MemoryMax=10G" in service
+    assert "CPUQuota=150%" in service
+    assert "CUDA_VISIBLE_DEVICES=" in service
+    assert "PrivateDevices=true" in service

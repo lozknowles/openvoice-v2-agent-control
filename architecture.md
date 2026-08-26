@@ -2,11 +2,11 @@
 
 ## Boundary
 
-OpenVoice remains an optional, one-shot capability. Agent Control owns the Job,
+OpenVoice qualification remains an optional, one-shot capability. Agent Control owns the Job,
 approval, resource lock, run ledger and JSON evidence. The OpenVoice repository
 owns the fixed installer, runtime, consent checks, resource guard and local UI.
-There is no systemd unit, container restart policy, reverse proxy or public
-route.
+The password-protected website beta is a separately authorised deployment. It
+does not change or schedule the Agent Control qualification Job.
 
 ```text
 Agent Control manual Job
@@ -63,6 +63,14 @@ client-side raw TCP helper binds only to loopback, accepts only a literal
 Tailscale CGNAT target, logs no audio and has a bounded lifetime. A consent
 affirmation is mandatory for every generation, output names are sanitised, and
 generated files receive `_synthetic.wav` plus a JSON sidecar.
+
+The public beta is a separate `public_interface.py` process and never reuses the
+operator qualification endpoint. Apache on cottageserver enforces password
+authentication at `/voice-clone/`, then proxies over Tailscale to port 17862 on
+hpubuntu. The backend is CPU-only, single-concurrency, size/time/rate bounded and
+has no public or LAN listener. A low-priority user service applies memory, CPU,
+task and device isolation. Ephemeral references and results live only under the
+user runtime directory and are removed within one hour or on service stop.
 
 ## Qualification scope
 

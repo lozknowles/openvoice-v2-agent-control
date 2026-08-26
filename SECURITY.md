@@ -5,11 +5,14 @@
 - Use only a voice owned by the operator or covered by explicit permission.
 - Never use the system Python, upgrade the NVIDIA driver, replace system CUDA,
   or stop protected workloads to make GPU inference fit.
-- Never bind the interface to `0.0.0.0`, `::`, a public address, or a LAN address
-  outside Tailscale. Never use Gradio sharing or a public tunnel.
-- Grant microphone permission only on the operator's loopback origin or a
-  tailnet-only HTTPS origin. Record in private surroundings and clear the
-  microphone reference when it is no longer needed.
+- Never bind either interface to `0.0.0.0`, `::`, a public address, or a LAN
+  address outside Tailscale. Never use Gradio sharing or a public tunnel. The
+  password beta is exposed only through the authenticated cottageserver proxy;
+  its backend remains on a literal Tailscale address.
+- Grant microphone permission only on the operator's loopback origin, a
+  tailnet-only HTTPS origin, or the authenticated website beta's HTTPS origin.
+  Record in private surroundings and clear the microphone reference when it is
+  no longer needed.
 - If the bounded loopback proxy is needed, keep its listener on loopback and its
   target on a literal Tailscale address. Never widen either endpoint.
 - Never commit or push reference audio, generated audio, speaker embeddings,
@@ -29,6 +32,10 @@ removed after the request.
 Extracted embeddings remain in process memory and are not deliberately
 persisted. Qualification audio lives only beneath `/fast/qualification` and is
 excluded from Git; operator test output lives beneath `/fast/openvoice-v2-data`.
+The password beta instead stores references and outputs in its private systemd
+runtime directory, deletes the uploaded reference immediately after a request,
+and removes all remaining request files within one hour or when the service
+stops. Apache credentials stay outside the web root and Git.
 
 ## Network boundary
 
@@ -43,6 +50,9 @@ The guard records llama.cpp, OCR, image-identification and existing TTS health
 before execution and checks it throughout. GPU work requires a configurable
 minimum free-VRAM margin. A breach aborts only the OpenVoice child. CPU work is
 nice/idle-I/O scheduled and thread-limited.
+- The password beta cannot select CUDA. Its service hides devices, runs with
+  low CPU/I/O priority, caps CPU at 150%, caps memory at 10 GiB, admits one
+  generation at a time and bounds its queue and hourly request rates.
 
 ## Reporting a problem
 

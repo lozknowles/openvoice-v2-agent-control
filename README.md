@@ -2,8 +2,9 @@
 
 This repository installs and qualifies a pinned MyShell OpenVoice V2 source
 checkout on hpubuntu without changing the system Python, NVIDIA driver, system
-CUDA toolkit or protected workloads. It remains optional: no resident service,
-public route, Gradio share link or automatic schedule is created.
+CUDA toolkit or protected workloads. The installer and Agent Control Job remain
+optional: they create no resident service, public route, Gradio share link or
+automatic schedule. A separately authorised password beta is documented below.
 
 Voice cloning is allowed only for the operator's own voice or a voice for which
 explicit permission has been obtained. All outputs are marked synthetic and the
@@ -49,7 +50,8 @@ npm run qualify:openvoice
 ```
 
 Required path variables are supplied by the reviewed hpubuntu invocation. There
-is no schedule and the capability is not advertised in the default configuration.
+is no qualification schedule and the capability is not advertised in the
+default configuration.
 
 ## Local interface
 
@@ -71,6 +73,26 @@ default English use the pinned English MeloTTS model; other languages require
 separately pinned models/evidence. Do not leave this process running as a
 service. No interface is enabled by the installation or Agent Control
 registration.
+
+## Password-protected public beta
+
+The separately authorised `lozknowles.com/voice-clone/` beta uses
+`scripts/public_interface.py`; it does not publish the local qualification UI.
+Apache requires a password before proxying over Tailscale to a dedicated
+CPU-only backend on port 17862. The username, password and password hash are
+never stored in Git.
+
+The beta fixes concurrency at one, keeps only two queued requests, limits each
+reference to 15 MiB and 2–30 seconds, limits text to 300 characters, applies
+per-client and global hourly limits, and removes server-side references and
+outputs within one hour. Runtime data is held beneath the user systemd runtime
+directory and disappears when the service stops. The service hides GPU devices,
+runs at low CPU/I/O priority, and has explicit CPU, memory and task limits.
+
+The reviewed service and Apache templates are in [`deploy/`](deploy/). They are
+not installed by the qualification script or Agent Control Job. Enabling the
+beta requires a separate deliberate deployment, a root-owned Apache password
+file, configuration validation, and protected-workload checks before and after.
 
 If the browser is on another tailnet device, SSH forwarding is unavailable and
 Tailscale Serve HTTPS is not enabled, run the bounded client-side proxy with a
