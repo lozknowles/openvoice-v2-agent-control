@@ -3,6 +3,7 @@ from pathlib import Path
 import pytest
 
 from scripts.local_interface import select_reference
+from scripts.local_loopback_proxy import validate_proxy_endpoints
 from scripts.openvoice_v2_runtime import (
     OpenVoiceV2Runtime,
     synthetic_output_name,
@@ -78,6 +79,17 @@ def test_interface_exposes_upload_and_microphone_sources():
     assert 'source="upload"' in source
     assert 'source="microphone"' in source
     assert source.count("show_share_button=False") == 2
+
+
+def test_loopback_proxy_accepts_only_loopback_to_tailscale():
+    assert validate_proxy_endpoints("127.0.0.1", "100.64.0.1") == (
+        "127.0.0.1",
+        "100.64.0.1",
+    )
+    with pytest.raises(ValueError):
+        validate_proxy_endpoints("0.0.0.0", "100.64.0.1")
+    with pytest.raises(ValueError):
+        validate_proxy_endpoints("127.0.0.1", "192.168.1.10")
 
 
 def test_runtime_does_not_disable_upstream_watermarking():

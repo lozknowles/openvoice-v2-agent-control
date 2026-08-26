@@ -58,9 +58,11 @@ Agent Control manual Job
 loopback or the Tailscale CGNAT range (`100.64.0.0/10`) only. The program has no
 share option. Separate drop/upload and microphone components feed a fail-closed
 selector that requires exactly one reference. Browser microphone capture must
-use a secure origin such as loopback or tailnet-only HTTPS. A consent affirmation
-is mandatory for every generation, output names are sanitised, and generated
-files receive `_synthetic.wav` plus a JSON sidecar.
+use a secure origin such as loopback or tailnet-only HTTPS. The optional
+client-side raw TCP helper binds only to loopback, accepts only a literal
+Tailscale CGNAT target, logs no audio and has a bounded lifetime. A consent
+affirmation is mandatory for every generation, output names are sanitised, and
+generated files receive `_synthetic.wav` plus a JSON sidecar.
 
 ## Qualification scope
 

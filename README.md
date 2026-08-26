@@ -72,6 +72,22 @@ separately pinned models/evidence. Do not leave this process running as a
 service. No interface is enabled by the installation or Agent Control
 registration.
 
+If the browser is on another tailnet device, SSH forwarding is unavailable and
+Tailscale Serve HTTPS is not enabled, run the bounded client-side proxy with a
+literal Tailscale target:
+
+```bash
+python scripts/local_loopback_proxy.py \
+  --listen-port 17861 \
+  --target-host <server-tailscale-ipv4> \
+  --target-port 17861 \
+  --lifetime-seconds 28800
+```
+
+Then open `http://127.0.0.1:17861`. The helper accepts only a loopback listener
+and a Tailscale CGNAT target, forwards raw bytes without logging audio, and exits
+when its bounded lifetime ends.
+
 ## Verification
 
 ```bash

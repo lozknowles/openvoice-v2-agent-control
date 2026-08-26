@@ -10,6 +10,8 @@
 - Grant microphone permission only on the operator's loopback origin or a
   tailnet-only HTTPS origin. Record in private surroundings and clear the
   microphone reference when it is no longer needed.
+- If the bounded loopback proxy is needed, keep its listener on loopback and its
+  target on a literal Tailscale address. Never widen either endpoint.
 - Never commit or push reference audio, generated audio, speaker embeddings,
   checkpoints, model caches, environment files, tokens, credentials or personal
   recordings.
